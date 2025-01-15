@@ -1,0 +1,70 @@
+<div class="shadow p-4 border">
+  
+    <div class="header">
+        <h2 color="text-xl font-semibold">Recipe Details</h2>
+        <div>
+        <mat-form-field style="padding-right:10px;">
+            <label >Search</label>
+            <input matInput (keyup)="applySearch($event)" placeholder="Search Recipe" />
+          </mat-form-field>
+          <mat-form-field  style="width: 150px;height:100px; margin-right: 10px;">
+            <mat-icon matPrefix>filter_alt</mat-icon>
+           
+           
+            <mat-select [(ngModel)]="filterBy">
+              
+              <mat-option value="name">Name</mat-option>
+              <mat-option value="cuisine">Cuisine</mat-option>
+              <mat-option value="preparationTime">Preparation Time</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    </div>
+    <table class="recipe-table">
+        <thead>
+            <tr>
+                <th (click)="sortUsers('RecipeId')" style="cursor: pointer;"> RecipeID
+                  @if (sortColumn === 'RecipeId'){
+                  <span>
+                      {{ sortOrder ? '▲' : '▼' }}
+                  </span>
+                  }</th>
+                <th>Name</th>
+                <th>Ingredients</th>
+                <th>Cuisine</th>
+                <th>PreparationTime</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of filteredUsers; track $index){
+            <tr >
+                <td>{{user.RecipeID}}</td>
+                <td>{{user.Name}}</td>
+                <td>{{user.Ingredients}}</td>
+                <td>{{user.Cuisine}}</td>
+                <td>{{user.PreparationTime}}</td>
+                <td style="margin-left: 40px;">
+                    <button style="background-color: rgb(58, 58, 250);margin-right: 10px;color:whitesmoke;padding: 10px;border-radius:5px;" [routerLink]="'/users/'+user._id">Edit</button>
+                    <button style="background-color: red;margin-right: 10px;color:whitesmoke;padding: 10px;border-radius:5px;"(click)="delete(user._id!)">Delete</button>
+                    <!-- <div class="example-button-container">
+                        <button mat-fab aria-label="Example icon button with a delete icon">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div> -->
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <button class ="add" routerLink="/users/add" style="margin-top:20px;">Add Recipe</button>
+    <mat-paginator
+    [pageSize]="pageSize" 
+    [pageIndex]="pageIndex"
+    [showFirstLastButtons]="true"
+     [pageSizeOptions]="[5, 10, 15]" aria-label="Select page"
+  >
+    </mat-paginator>
+</div>
+
+

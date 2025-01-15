@@ -1,0 +1,66 @@
+<div class="form-container">
+<div class="shadow border p-4 form-content">
+  @if(editUserId){
+    <h2 class="form-title">Update Recipe</h2>
+  }
+  @else{
+    <h2 class="form-title">Add Recipe</h2>
+  }
+  <form [formGroup]="userForm" class="form">
+    <div class="flex flex-wrap ">
+      <mat-form-field class="w-full">
+        <label>Recipe Name</label>
+        <input
+          matInput 
+          type="text"
+          placeholder="Name"
+          required
+        formControlName="Name"/>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+        <label >Ingredients</label>
+        <input
+        matInput
+          type="text"
+          placeholder="Ingredients"
+          required 
+          formControlName="Ingredients"
+        />
+    </mat-form-field>
+    
+      
+      <mat-form-field class="w-full">
+        <label>Cuisines</label>
+        <mat-select matInput formControlName="Cuisine">
+          <mat-option value="Indian">Indian</mat-option>
+          <mat-option value="Italian">Italian</mat-option>
+          <mat-option value="Chinese">Chinese</mat-option>
+          <mat-option value="Japanese">Japan</mat-option>
+          <mat-option value="French">French</mat-option>
+          <mat-option value="Norwegian">Norwegian</mat-option>
+        </mat-select>
+    </mat-form-field>
+<mat-form-field class="w-full">
+    <label>Preperation Time</label>
+        <input
+        matInput
+          type="number"
+          placeholder="Preparation Time"
+        
+          formControlName="PreparationTime"
+        />
+    </mat-form-field>
+       
+    </div>
+    <div class="flex justify-center">
+      @if(editUserId){
+        <button (click)="updateUser()">UPDATE</button>
+      }
+      @else{
+        <button (click)="addUser()">ADD</button>
+      }
+        
+    </div>
+  </form>
+</div>
+</div>

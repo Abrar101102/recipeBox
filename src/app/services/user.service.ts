@@ -10,8 +10,14 @@ export class UserService {
   httpClient=inject(HttpClient);
   constructor() { }
 
+  // getUsers(params: { page: number; size: number }) {
+  //   return this.httpClient.get<{ users: User[]; total: number }>(this.apiUrl+'/users', {
+  //     params: { page: params.page.toString(), size: params.size.toString() },
+  //   });
+  // }
+
   getUsers(){
-    return this.httpClient.get<User[]>(this.apiUrl+'/users');
+     return this.httpClient.get<User[]>(this.apiUrl+'/users');
   }
   getUser(id:string){
     return this.httpClient.get<User>(this.apiUrl+'/users');

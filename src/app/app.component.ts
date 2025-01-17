@@ -11,6 +11,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   // title = 'frontend';
   // path: string = "../assests/images/first.png";
   // alttext: string = "first image";

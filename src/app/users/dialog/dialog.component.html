@@ -1,0 +1,22 @@
+<h2 mat-dialog-title style="padding-left: 40%;padding-top: 40px;padding-bottom: 40px;">Filter Options</h2>
+<div mat-dialog-content>
+  <!-- Search Input -->
+  <mat-form-field appearance="fill" style="background-color:rgb(147, 205, 255);width: 100%;">
+    <mat-label>Search</mat-label>
+    <input matInput [(ngModel)]="searchQuery" placeholder="Type to search..." />
+  </mat-form-field>
+
+  <!-- Dropdown -->
+  <mat-form-field class="w-full">
+    <mat-label>Search filter</mat-label>
+    <mat-select  [(ngModel)]="filterBy">
+      <mat-option value="Name">Name</mat-option>
+      <mat-option value="Cuisine">Cuisine</mat-option>
+      <mat-option value="PreparationTime">PreparationTime</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions style="padding-left: 40%;">
+  <button mat-button mat-dialog-close style="padding-right: 10px;">Cancel</button>
+  <button mat-button color="primary" (click)="applyFilter()">Apply</button>
+</div>

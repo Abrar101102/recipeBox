@@ -16,7 +16,7 @@ table{
 }*/
 .add{
     background-color: green;
-    margin-left:50%; 
+    margin-left:47%; 
     margin-bottom:20px;
     background-color: green;
     color:whitesmoke;
@@ -40,15 +40,28 @@ table{
     align-items: center;
 
 }
-
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .search-field {
+    width: 300px;
+  }
+  
+  .filter-dropdown {
+    width: 200px;
+  }
 
 .add:hover {
     background-color: #45a049;
 }
 .recipe-table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
-    margin-top: 16px;
+    margin-top: 10px;
+    margin-left: 130px;
 }
 .recipe-table th, .recipe-table td {
     border: 1px solid #ddd;
@@ -59,10 +72,81 @@ table{
     background-color: #f2f2f2;
     font-weight: bold;
 }
-.recipe-table tr:nth-child(even) {
+.recipe-table tr {/*:nth-child(even)*/
     background-color: #f9f9f9;
 }
 .recipe-table tr:hover {
     background-color: #f1f1f1;
 }
-
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  /* Pagination list styles */
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Page item styles */
+  .page-item {
+    margin: 0;
+  }
+  
+  .page-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  
+  /* Hover effects */
+  .page-item a:hover {
+    background: rgba(0, 0, 0, 0.2); /* Darker hover effect */
+    color: #fff;
+  }
+  
+  /* Disabled state */
+  .page-item.disabled a {
+    color: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Active page */
+  .page-item.active a {
+    background: #007bff; /* Primary color */
+    color: #fff;
+    border-color: #0056b3;
+  }
+  
+  /* Custom arrow styles */
+  .page-item a::before {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .page-item a {
+      width: 35px;
+      height: 35px;
+      font-size: 14px;
+    }
+  }

@@ -1,43 +1,63 @@
-<div class="shadow p-4 border">
+<div class="shadow p-4 border" style="background-image: url('https://shorturl.at/vdx1L'); 
+background-attachment: fixed; 
+background-size: cover; 
+background-repeat: no-repeat; 
+min-height: 100vh;">
   
     <div class="header">
-        <h2 color="text-xl font-semibold">Recipe Details</h2>
-        <div>
-        <mat-form-field style="padding-right:10px;">
-            <label >Search</label>
-            <input matInput (keyup)="applySearch($event)" placeholder="Search Recipe" />
+        <h2 style="font-weight:bolder;font-size:large;color: black;text-decoration-line: underline;">Recipe Details</h2>
+        <div class="filter-container">
+        <mat-form-field appearance="fill" style="background-color: aliceblue;border-radius: 10px;" class="search-field" >
+          <mat-icon >search</mat-icon><input matInput (keyup)="applySearch($event)" placeholder="Search Recipe" />
           </mat-form-field>
-          <mat-form-field  style="width: 150px;height:100px; margin-right: 10px;">
+          <mat-form-field appearance="fill" class="filter-dropdown" style="background-color: rgb(255, 255, 255);border-radius: 20px;width: 60px;height:80px; margin-right: 10px;">
             <mat-icon matPrefix>filter_alt</mat-icon>
            
            
-            <mat-select [(ngModel)]="filterBy">
-              
-              <mat-option value="name">Name</mat-option>
-              <mat-option value="cuisine">Cuisine</mat-option>
-              <mat-option value="preparationTime">Preparation Time</mat-option>
-            </mat-select>
+            <button mat-icon-button (click)="openDialog()">
+              <mat-icon>filter_alt</mat-icon>
+            </button>
+           
           </mat-form-field>
         </div>
     </div>
     <table class="recipe-table">
         <thead>
             <tr>
-                <th (click)="sortUsers('RecipeId')" style="cursor: pointer;"> RecipeID
-                  @if (sortColumn === 'RecipeId'){
-                  <span>
-                      {{ sortOrder ? '▲' : '▼' }}
-                  </span>
-                  }</th>
-                <th>Name</th>
+              <th (click)="sortUsers('RecipeID')">
+                RecipeID
+                <mat-icon *ngIf="sortColumn === '' || (sortColumn === 'RecipeID' && sortOrder === 'asc')">
+                  arrow_upward
+                </mat-icon>
+                <mat-icon *ngIf="sortColumn === 'RecipeID' && sortOrder === 'desc'">
+                  arrow_downward
+                </mat-icon>
+              </th>
+                  <th (click)="sortUsers('Name')">
+                    Name
+                    <mat-icon *ngIf="sortColumn === '' || (sortColumn === 'Name' && sortOrder === 'asc')">
+                      arrow_upward
+                    </mat-icon>
+                    <mat-icon *ngIf="sortColumn === 'Name' && sortOrder === 'desc'">
+                      arrow_downward
+                    </mat-icon>
+                  </th>
                 <th>Ingredients</th>
                 <th>Cuisine</th>
-                <th>PreparationTime</th>
+                <th (click)="sortUsers('PreparationTime')">
+                  PreparationTime
+                  <mat-icon *ngIf="sortColumn === '' || (sortColumn === 'PreparationTime' && sortOrder === 'asc')">
+                    arrow_upward
+                  </mat-icon>
+                  <mat-icon *ngIf="sortColumn === 'PreparationTime' && sortOrder === 'desc'">
+                    arrow_downward
+                  </mat-icon>
+                </th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @for (user of filteredUsers; track $index){
+            @for (user of paginatedUsers; track $index){
             <tr >
                 <td>{{user.RecipeID}}</td>
                 <td>{{user.Name}}</td>
@@ -45,26 +65,69 @@
                 <td>{{user.Cuisine}}</td>
                 <td>{{user.PreparationTime}}</td>
                 <td style="margin-left: 40px;">
-                    <button style="background-color: rgb(58, 58, 250);margin-right: 10px;color:whitesmoke;padding: 10px;border-radius:5px;" [routerLink]="'/users/'+user._id">Edit</button>
-                    <button style="background-color: red;margin-right: 10px;color:whitesmoke;padding: 10px;border-radius:5px;"(click)="delete(user._id!)">Delete</button>
-                    <!-- <div class="example-button-container">
-                        <button mat-fab aria-label="Example icon button with a delete icon">
+                    <!-- <button style="background-color: rgb(58, 58, 250);margin-right: 10px;color:whitesmoke;padding: 10px;border-radius:5px;" [routerLink]="'/users/'+user._id">Edit</button> -->
+                    <!-- <button style="background-color: red;margin-right: 10px;color:whitesmoke;padding: 10px;border-radius:5px;"(click)="delete(user._id!)">Delete</button> -->
+                     <div class="example-button-container">
+                      <button mat-fab aria-label="Example icon button with a delete icon" [routerLink]="'/users/'+user._id" style="color: blue;">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                        <button mat-fab aria-label="Example icon button with a delete icon" style="color: red;" (click)="delete(user._id!)">
                           <mat-icon>delete</mat-icon>
                         </button>
-                      </div> -->
+                      </div>
                 </td>
             </tr>
         }
         </tbody>
     </table>
     <button class ="add" routerLink="/users/add" style="margin-top:20px;">Add Recipe</button>
-    <mat-paginator
+    <!-- <mat-paginator
     [pageSize]="pageSize" 
     [pageIndex]="pageIndex"
     [showFirstLastButtons]="true"
      [pageSizeOptions]="[5, 10, 15]" aria-label="Select page"
   >
-    </mat-paginator>
+    </mat-paginator> -->
+     <!-- Pagination -->
+     <nav *ngIf="totalPages > 1" class="pagination-container">
+      <ul class="pagination">
+        <!-- Previous Page -->
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a
+            class="page-link"
+            href="#"
+            (click)="changePage(currentPage - 1)"
+            [attr.aria-disabled]="currentPage === 1"
+            >&#8592;</a
+          >
+        </li>
+    
+        <!-- Page Numbers -->
+        <li
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          class="page-item"
+          [class.active]="currentPage === i + 1"
+        >
+          <a
+            class="page-link"
+            href="#"
+            (click)="changePage(i + 1)"
+            >{{ i + 1 }}</a
+          >
+        </li>
+    
+        <!-- Next Page -->
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a
+            class="page-link"
+            href="#"
+            (click)="changePage(currentPage + 1)"
+            [attr.aria-disabled]="currentPage === totalPages"
+            >&#8594;</a
+          >
+        </li>
+      </ul>
+    </nav>
 </div>
 
 

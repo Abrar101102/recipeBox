@@ -13,4 +13,9 @@ html {
     typography: Roboto,
     density: 0,
   ));
+
+
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    border-color: #666 !important;
+  }
 }
